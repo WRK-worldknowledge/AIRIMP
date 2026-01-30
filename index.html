@@ -13,7 +13,7 @@
 <body>
 <div id="start">
   <img src="logo.png" class="logo">
-  <h1><h1>AIRIMP Codes Trainer</h1>
+  <h1>AIRIMP Codes Trainer</h1>
   <h3>Game Type</h3>
   <label><input type="radio" name="gameType" checked onclick="setGameType('code-to-city')"> Guess the meaning</label>
 <label><input type="radio" name="gameType" onclick="setGameType('city-to-code')"> Guess the code</label>
@@ -38,5 +38,14 @@
 </div>
 
 <script src="app.js"></script>
+  <script>
+document.addEventListener('click', () => {
+  if (typeof DeviceOrientationEvent !== "undefined" &&
+      typeof DeviceOrientationEvent.requestPermission === "function") {
+    DeviceOrientationEvent.requestPermission().catch(() => {});
+  }
+});
+</script>
+
 </body>
 </html>
