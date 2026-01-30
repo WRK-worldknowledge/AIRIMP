@@ -102,40 +102,40 @@ function end() {
   document.getElementById('end').classList.remove('hidden');
   document.getElementById('score').innerText = `Final score: ${score}`;
 }
-// --- STABLE TILT CONTROLS ---
-let lastTilt = 0;
-let resting = true;
+// --- DEFINITIVE STABLE TILT ---
+let lastAction = 0;
+let tiltLocked = false;
 
 window.addEventListener('deviceorientation', function(e) {
   if (!gameData.length) return;
   if (time <= 0) return;
 
   const gamma = e.gamma; // left-right tilt
+  const now = Date.now();
 
-  // Cooldown to prevent spam
-  if (Date.now() - lastTilt < 900) return;
+  // Hard cooldown
+  if (now - lastAction < 1200) return;
 
-  // Only trigger if phone was previously "neutral"
-  if (resting) {
-
-    // RIGHT tilt = GOOD
-    if (gamma > 25) {
-      resting = false;
-      lastTilt = Date.now();
-      good();
-    }
-
-    // LEFT tilt = WRONG
-    if (gamma < -25) {
-      resting = false;
-      lastTilt = Date.now();
-      skip();
-    }
+  // Ignore small movement (dead zone)
+  if (gamma > -15 && gamma < 15) {
+    tiltLocked = false;
+    return;
   }
 
-  // Reset resting when phone returns to center
-  if (gamma > -10 && gamma < 10) {
-    resting = true;
+  // Only trigger if unlocked
+  if (tiltLocked) return;
+
+  // RIGHT tilt = GOOD
+  if (gamma > 30) {
+    tiltLocked = true;
+    lastAction = now;
+    good();
+  }
+
+  // LEFT tilt = WRONG
+  if (gamma < -30) {
+    tiltLocked = true;
+    lastAction = now;
+    skip();
   }
 });
-
