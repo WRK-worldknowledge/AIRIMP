@@ -1,1 +1,34 @@
-[]
+[
+  {"module":"Passenger","country":"Passenger & Special Pax","city":"Unaccompanied Minor","code":"UMNR"},
+  {"module":"Passenger","country":"Passenger & Special Pax","city":"Passenger with Reduced Mobility","code":"PRM"},
+  {"module":"Passenger","country":"Passenger & Special Pax","city":"Wheelchair Required","code":"WCHR"},
+  {"module":"Passenger","country":"Passenger & Special Pax","city":"Inadmissible Passenger","code":"INAD"},
+  {"module":"Passenger","country":"Passenger & Special Pax","city":"Medical Case","code":"MEDA"},
+
+  {"module":"Meals","country":"Meals","city":"Vegetarian Meal","code":"VGML"},
+  {"module":"Meals","country":"Meals","city":"Kosher Meal","code":"KSML"},
+  {"module":"Meals","country":"Meals","city":"Gluten Free Meal","code":"GFML"},
+  {"module":"Meals","country":"Meals","city":"Asian Vegetarian Meal","code":"AVML"},
+
+  {"module":"Cabin","country":"Cabin & Operations","city":"Able Bodied Passenger","code":"ABP"},
+  {"module":"Cabin","country":"Cabin & Operations","city":"Public Announcement","code":"PA"},
+  {"module":"Cabin","country":"Cabin & Operations","city":"Minimum Equipment List","code":"MEL"},
+  {"module":"Cabin","country":"Cabin & Operations","city":"Notice To Crew","code":"NOTOC"},
+
+  {"module":"Safety","country":"Safety & Emergency","city":"Emergency Locator Transmitter","code":"ELT"},
+  {"module":"Safety","country":"Safety & Emergency","city":"Portable Breathing Equipment","code":"PBE"},
+  {"module":"Safety","country":"Safety & Emergency","city":"First Aid Kit","code":"FAK"},
+  {"module":"Safety","country":"Safety & Emergency","city":"Automated External Defibrillator","code":"AED"},
+
+  {"module":"Cargo","country":"Cargo & Special Loads","city":"Live Animals in Hold","code":"AVIH"},
+  {"module":"Cargo","country":"Cargo & Special Loads","city":"Human Remains","code":"HUM"},
+  {"module":"Cargo","country":"Cargo & Special Loads","city":"Perishable Cargo","code":"PER"},
+  {"module":"Cargo","country":"Cargo & Special Loads","city":"Dangerous Goods","code":"DGR"},
+  {"module":"Cargo","country":"Cargo & Special Loads","city":"Valuable Cargo","code":"VAL"},
+
+  {"module":"Flight","country":"Flight & Operations","city":"Estimated Time of Arrival","code":"ETA"},
+  {"module":"Flight","country":"Flight & Operations","city":"Estimated Time of Departure","code":"ETD"},
+  {"module":"Flight","country":"Flight & Operations","city":"Scheduled Time of Arrival","code":"STA"},
+  {"module":"Flight","country":"Flight & Operations","city":"Scheduled Time of Departure","code":"STD"},
+  {"module":"Flight","country":"Flight & Operations","city":"Actual Time of Arrival","code":"ATA"}
+]
