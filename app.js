@@ -49,9 +49,21 @@ function tick(){
 }
 
 function show(){
- if(i>=gameData.length){i=0;}
- const item=gameData[i];
- document.getElementById('code').innerText = (gameType==='city-to-code') ? item.city : item.code;
+ if(i >= gameData.length){ i = 0; }
+
+ const item = gameData[i];
+ if(!item){
+   document.getElementById('code').innerText = "No data";
+   return;
+ }
+
+ // AIRIMP & WRK compatible display
+ const text = (gameType === 'city-to-code')
+   ? (item.code || "???")
+   : (item.city || item.code || "???");
+
+ document.getElementById('code').innerText = text;
+}
 }
 
 function flash(type){
