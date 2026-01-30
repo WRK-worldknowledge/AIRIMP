@@ -102,3 +102,28 @@ function end() {
   document.getElementById('end').classList.remove('hidden');
   document.getElementById('score').innerText = `Final score: ${score}`;
 }
+// --- TILT CONTROLS (WRK stable version) ---
+let lastTilt = 0;
+
+window.addEventListener('deviceorientation', function(e) {
+  if (!gameData.length) return;
+  if (time <= 0) return;
+
+  const gamma = e.gamma; // left-right tilt
+
+  // prevent rapid triggers
+  if (Date.now() - lastTilt < 900) return;
+
+  // RIGHT tilt = GOOD
+  if (gamma > 18) {
+    lastTilt = Date.now();
+    good();
+  }
+
+  // LEFT tilt = WRONG / SKIP
+  if (gamma < -18) {
+    lastTilt = Date.now();
+    skip();
+  }
+});
+
