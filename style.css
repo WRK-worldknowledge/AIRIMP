@@ -42,4 +42,9 @@ button:hover{
  color:#F5CA51;
  font-weight:700;
 }
+/* Stack game type radio buttons vertically */
+label {
+  display: block;
+  margin: 8px 0;
+}
 
