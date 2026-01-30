@@ -79,7 +79,7 @@ function skip(){
  flash('flash-bad');
  const item=gameData[i];
  const hint=document.getElementById('hint');
- hint.innerText = (gameType==='city-to-code') ? item.code + " — " + item.country : item.city + " — " + item.country;
+hint.innerText = (gameType==='city-to-code')  ? item.code  : item.city;
  document.getElementById('game').classList.add('hidden');
  hint.classList.remove('hidden');
 
