@@ -10,23 +10,31 @@ const moduleNames={
  'AM':'America','AUS':'Oceania','ASIA':'Asia'
 };
 
-fetch('iata.json').then(r=>r.json()).then(d=>{
- allData = d;
+fetch('iata.json').then(r => r.json()).then(d => {
+  allData = d;
 
- const mods = [...new Set(d.map(x => x.module).filter(Boolean))];
- const c = document.getElementById('modules');
+  const mods = [
+    "Passenger",
+    "Meals",
+    "Cabin",
+    "Safety",
+    "Cargo",
+    "Flight"
+  ];
 
- c.innerHTML = ""; // reset menu
+  const c = document.getElementById('modules');
+  c.innerHTML = "";
 
- mods.forEach(m => {
-   c.innerHTML += `
-     <label>
-       <input type="checkbox" value="${m}" checked>
-       ${m}
-     </label><br>
-   `;
- });
+  mods.forEach(m => {
+    c.innerHTML += `
+      <label>
+        <input type="checkbox" value="${m}" checked>
+        ${m}
+      </label><br>
+    `;
+  });
 });
+
 
 
 function setMode(m){
