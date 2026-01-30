@@ -1,9 +1,4 @@
-
-let allData=[], gameData=[], i=0, score=0, time=60, timer;
-let mode='train', gameType='code-to-city';
-let tiltState='neutral';
-
-const failSound = new Audio("fail.mp3");
+let allData=[], gameData=[], i=0, score=0, time=60, timer, mode='train', gameType='code-to-city';
 
 const moduleNames = {
  'Passenger': 'Passenger & Special Pax',
@@ -14,60 +9,49 @@ const moduleNames = {
  'Flight': 'Flight & Operations'
 };
 
-fetch('iata.json').then(r=>r.json()).then(d=>{
- allData=d;
- const mods=[...new Set(d.map(x=>x.module))];
- const c=document.getElementById('modules');
- mods.forEach(m=>{
-  c.innerHTML+=`<label><input type="checkbox" value="${m}" checked> ${moduleNames[m]||m}</label><br>`;
- });
-});
-
-
-  const mods = [
-    "Passenger",
-    "Meals",
-    "Cabin",
-    "Safety",
-    "Cargo",
-    "Flight"
-  ];
-
+fetch('iata.json')
+.then(r => r.json())
+.then(d => {
+  allData = d;
+  const mods = [...new Set(d.map(x => x.module))];
   const c = document.getElementById('modules');
   c.innerHTML = "";
 
   mods.forEach(m => {
-    c.innerHTML += `
-      <label>
-        <input type="checkbox" value="${m}" checked>
-        ${m}
-      </label><br>
-    `;
+    c.innerHTML += `<label><input type="checkbox" value="${m}" checked> ${moduleNames[m] || m}</label><br>`;
   });
 });
-
-
 
 function setMode(m){
  mode=m;
  document.getElementById('modules').style.display = m==='exam' ? 'none':'block';
 }
 
-function setGameType(t){ gameType=t; }
+function setGameType(t){
+ gameType=t;
+}
 
 function startGame(){
  const checked=[...document.querySelectorAll('#modules input:checked')].map(x=>x.value);
- gameData = mode==='exam' ? allData.slice() : allData.filter(x=>checked.includes(x.module));
+
+ gameData = mode==='exam'
+   ? allData.slice()
+   : allData.filter(x=>checked.includes(x.module));
+
+ if(gameData.length === 0){
+   gameData = allData.slice();
+ }
+
  gameData.sort(()=>Math.random()-0.5);
 
  document.getElementById('start').classList.add('hidden');
- document.getElementById('end').classList.add('hidden');
- document.getElementById('hint').classList.add('hidden');
  document.getElementById('game').classList.remove('hidden');
 
- score=0; i=0; time=60;
+ score=0; 
+ i=0; 
+ time=60;
+
  timer=setInterval(tick,1000);
- initTilt();
  show();
 }
 
@@ -78,114 +62,27 @@ function tick(){
 }
 
 function show(){
- if(i >= gameData.length){ i = 0; }
+ if(i>=gameData.length){ i=0; }
 
  const item = gameData[i];
- if(!item){
-   document.getElementById('code').innerText = "No data";
-   return;
- }
+ const text = (gameType==='city-to-code')
+   ? item.code
+   : item.city;
 
- // AIRIMP & WRK compatible display
- const text = (gameType === 'city-to-code')
-   ? (item.code || "???")
-   : (item.city || item.code || "???");
-
- document.getElementById('code').innerText = text;
-}
-}
-
-function flash(type){
- document.body.classList.add(type);
- setTimeout(()=>document.body.classList.remove(type),350);
+ document.getElementById('code').innerText = text || "???";
 }
 
 function good(){
- if (navigator.vibrate) navigator.vibrate(60);
  score++;
- flash('flash-good');
  i++;
  show();
 }
 
 function skip(){
- if (navigator.vibrate) navigator.vibrate([100, 40, 100]);
- try { failSound.play(); } catch(e) {}
-
- flash('flash-bad');
- const item=gameData[i];
- const hint=document.getElementById('hint');
- hint.innerText = (gameType==='city-to-code') ? item.code + " — " + item.country : item.city + " — " + item.country;
+ const item = gameData[i];
  document.getElementById('game').classList.add('hidden');
- hint.classList.remove('hidden');
 
- setTimeout(()=>{
-   hint.classList.add('hidden');
-   document.getElementById('game').classList.remove('hidden');
-   i++;
-   show();
- },3000);
-}
+ const h=document.getElementById('hint');
+ const answer = (gameType==='city-to-code') ? item.city : item.code;
 
-function end(){
- clearInterval(timer);
- stopTilt();
-
- document.getElementById('game').classList.add('hidden');
- document.getElementById('end').classList.remove('hidden');
- document.getElementById('score').innerText=`Final score: ${score}`;
-}
-
-function resetGame(){
- clearInterval(timer);
- tiltState='neutral';
- document.getElementById('end').classList.add('hidden');
- document.getElementById('game').classList.add('hidden');
- document.getElementById('hint').classList.add('hidden');
- document.getElementById('start').classList.remove('hidden');
-}
-
-let tiltActive = false;
-
-function initTilt(){
- tiltActive = true;
- window.addEventListener("deviceorientation", handleTilt, true);
-}
-
-function stopTilt(){
- tiltActive = false;
-}
-
-
-let tiltLocked = false;
-
-function handleTilt(e){
- if(!tiltActive) return;
-
- const beta = e.beta; // terug naar meest stabiele as
- if(beta === null) return;
-
- const FORWARD = -22;   // duidelijk voorover
- const BACK = 22;       // duidelijk achterover
- const NEUTRAL_MIN = -6;
- const NEUTRAL_MAX = 6;
-
- // Reset lock pas als hij echt neutraal is
- if(beta > NEUTRAL_MIN && beta < NEUTRAL_MAX){
-   tiltLocked = false;
-   return;
- }
-
- // Trigger goed
- if(beta < FORWARD && !tiltLocked){
-   tiltLocked = true;
-   good();
- }
-
- // Trigger fout
- else if(beta > BACK && !tiltLocked){
-   tiltLocked = true;
-   skip();
- }
-}
-
+ h.
