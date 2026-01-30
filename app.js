@@ -102,8 +102,9 @@ function end() {
   document.getElementById('end').classList.remove('hidden');
   document.getElementById('score').innerText = `Final score: ${score}`;
 }
-// --- TILT CONTROLS (WRK stable version) ---
+// --- STABLE TILT CONTROLS ---
 let lastTilt = 0;
+let resting = true;
 
 window.addEventListener('deviceorientation', function(e) {
   if (!gameData.length) return;
@@ -111,19 +112,30 @@ window.addEventListener('deviceorientation', function(e) {
 
   const gamma = e.gamma; // left-right tilt
 
-  // prevent rapid triggers
+  // Cooldown to prevent spam
   if (Date.now() - lastTilt < 900) return;
 
-  // RIGHT tilt = GOOD
-  if (gamma > 18) {
-    lastTilt = Date.now();
-    good();
+  // Only trigger if phone was previously "neutral"
+  if (resting) {
+
+    // RIGHT tilt = GOOD
+    if (gamma > 25) {
+      resting = false;
+      lastTilt = Date.now();
+      good();
+    }
+
+    // LEFT tilt = WRONG
+    if (gamma < -25) {
+      resting = false;
+      lastTilt = Date.now();
+      skip();
+    }
   }
 
-  // LEFT tilt = WRONG / SKIP
-  if (gamma < -18) {
-    lastTilt = Date.now();
-    skip();
+  // Reset resting when phone returns to center
+  if (gamma > -10 && gamma < 10) {
+    resting = true;
   }
 });
 
