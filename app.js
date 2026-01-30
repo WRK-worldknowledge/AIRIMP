@@ -5,10 +5,15 @@ let tiltState='neutral';
 
 const failSound = new Audio("fail.mp3");
 
-const moduleNames={
- 'AFR':'Africa','EURW':'Western Europe','EURO':'Eastern Europe',
- 'AM':'America','AUS':'Oceania','ASIA':'Asia'
+const moduleNames = {
+  'Passenger': 'Passenger & Special Pax',
+  'Meals': 'Meals',
+  'Cabin': 'Cabin & Operations',
+  'Safety': 'Safety & Emergency',
+  'Cargo': 'Cargo & Special Loads',
+  'Flight': 'Flight & Operations'
 };
+
 
 fetch('iata.json').then(r=>r.json()).then(d=>{
  allData=d;
